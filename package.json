@@ -1,0 +1,40 @@
+{
+  "name": "unused-unloved",
+  "version": "1.0.0",
+  "description": "Find all the unused imports in your React project (no need for a webpack plugin). List out all those files in a nice JSON file to do what you like with!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cwatson88/unused-unloved.git"
+  },
+  "keywords": [
+    "unused",
+    "import",
+    "react",
+    "imports"
+  ],
+  "author": "cwatson88",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/cwatson88/unused-unloved/issues"
+  },
+  "homepage": "https://github.com/cwatson88/unused-unloved#readme",
+  "devDependencies": {
+    "eslint": "^5.10.0",
+    "eslint-plugin-prettier": "^2.7.0",
+    "eslint-plugin-react": "^7.11.1",
+    "prettier": "1.13.7",
+    "react-testing-library": "^5.4.0"
+  },
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "clui": "^0.3.6",
+    "commander": "^2.19.0",
+    "inquirer": "^6.2.1",
+    "minimist": "^1.2.0",
+    "uuid": "^3.3.2"
+  }
+}
