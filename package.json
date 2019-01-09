@@ -6,6 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "preferGlobal": true,
+  "bin": "./build/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cwatson88/unused-unloved.git"
