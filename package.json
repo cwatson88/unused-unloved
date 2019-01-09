@@ -23,13 +23,15 @@
   },
   "homepage": "https://github.com/cwatson88/unused-unloved#readme",
   "devDependencies": {
-    "eslint": "^5.10.0",
-    "eslint-plugin-prettier": "^2.7.0",
-    "eslint-plugin-react": "^7.11.1",
-    "prettier": "1.13.7",
-    "react-testing-library": "^5.4.0"
+    "prettier": "^1.15.3",
+    "tslint": "^5.12.0",
+    "tslint-config-prettier": "^1.17.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "typescript": "^3.2.2"
   },
   "dependencies": {
+    "@types/inquirer": "0.0.43",
+    "@types/node": "^10.12.18",
     "chalk": "^2.4.1",
     "clui": "^0.3.6",
     "commander": "^2.19.0",

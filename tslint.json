@@ -1,0 +1,14 @@
+{
+    "rules": {
+        "no-constant-condition": true,
+        "no-console": false
+    },
+    "rulesDirectory": [
+        "node_modules/tslint-eslint-rules/dist/rules"
+    ],
+    "extends": [
+        "tslint:latest",
+        "tslint-config-prettier",
+        "tslint-eslint-rules"
+    ]
+}
