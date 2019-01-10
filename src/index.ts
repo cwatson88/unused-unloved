@@ -1,30 +1,37 @@
 #!/usr/bin/env node
-import * as fs from 'fs'
-import * as inquirer from 'inquirer'
+import chalk from "chalk";
+import * as fs from "fs";
+import * as inquirer from "inquirer";
+import findUnusedImports from "./unused-code-check";
 
 inquirer
   .prompt([
     {
-      choices: [
-        {
-          name: "Yes, let's do this... ??",
-        },
-        {
-          name: "Ah no, wait I'll be back ?",
-        },
-      ],
+      default: false,
       message:
-        'Are you ready and are you in your parent folder with a *src* folder included?',
-      name: 'start',
-      type: 'list'
-    },
+        "Are you ready and are you in your parent folder with a *src* folder included?",
+      name: "run",
+      type: "confirm"
+    }
   ])
-  .then((answers) => {
-    console.log(JSON.stringify(answers, null, '  '));
-    // validate(answer) {
-    // const startPath = process.cwd();
-    // fs.readdirSync(startPath).some(item => item === 'src')
-    //   ? "Let's a go ??"
-    //   : "Hmm seems you weren't telling the truth about a src folder here ... ??";
-    // },
+  .then(({ run }) => {
+    if (run) {
+      const startPath: string = process.cwd();
+      if (
+        fs
+          .readdirSync(startPath)
+          .some((folderName: string) => folderName === "src")
+      ) {
+        console.log(chalk.green("Yes, let's do this... ⚡️"));
+        findUnusedImports();
+      } else {
+        console.log(
+          chalk.red("Hmm cant find a src folder here, just sayin ... 🤔")
+        );
+      }
+    } else {
+      console.log(
+        chalk.yellow("OK head to your folder with *src* and try again! 📂")
+      );
+    }
   });
