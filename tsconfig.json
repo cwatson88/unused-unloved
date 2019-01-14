@@ -6,7 +6,8 @@
         "noEmitOnError": true,
         "module": "commonjs",
         "types": [
-            "node"
+            "node",
+            "jest"
         ]
     },
     "include": [
