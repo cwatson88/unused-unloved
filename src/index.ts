@@ -2,8 +2,9 @@
 import chalk from "chalk";
 import * as fs from "fs";
 import * as inquirer from "inquirer";
-import findUnusedImports from "./unused-code-check";
+import startCLI from "./command-line-input/start";
 
+//  start point for the program
 inquirer
   .prompt([
     {
@@ -23,7 +24,7 @@ inquirer
           .some((folderName: string) => folderName === "src")
       ) {
         console.log(chalk.green("Yes, let's do this... ⚡️"));
-        findUnusedImports();
+        startCLI();
       } else {
         console.log(
           chalk.red("Hmm cant find a src folder here, just sayin ... 🤔")

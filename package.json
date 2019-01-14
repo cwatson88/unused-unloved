@@ -2,11 +2,22 @@
   "name": "unused-unloved",
   "version": "1.0.0",
   "description": "Find all the unused files 🗂 by checking all unused imports in your React project (no need for a webpack plugin). List out all those files in a nice JSON file to do what you like with!",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib /**/*"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "tsc",
-    "build:watch": "tsc --watch"
+    "build:watch": "tsc --watch",
+    "lint": "tslint -p tsconfig.json",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "preferGlobal": true,
   "bin": "./lib/index.js",
@@ -18,7 +29,8 @@
     "unused",
     "import",
     "react",
-    "imports"
+    "imports",
+    "files"
   ],
   "author": "cwatson88",
   "license": "GPL-3.0-or-later",
@@ -27,7 +39,10 @@
   },
   "homepage": "https://github.com/cwatson88/unused-unloved#readme",
   "devDependencies": {
+    "@types/jest": "^23.3.12",
     "@types/uuid": "^3.4.4",
+    "husky": "^1.3.1",
+    "jest": "^23.6.0",
     "prettier": "^1.15.3",
     "tslint": "^5.12.0",
     "tslint-config-prettier": "^1.17.0",
@@ -43,5 +58,24 @@
     "inquirer": "^6.2.1",
     "minimist": "^1.2.0",
     "uuid": "^3.3.2"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/preprocessor.js"
+    },
+    "testMatch": [
+      "**/__tests__/*.(ts|tsx)"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test",
+      "pre-push": "npm test"
+    }
   }
 }
