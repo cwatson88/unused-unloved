@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import * as fs from "fs";
 import * as path from "path";
-import { createJSONFile } from "../output-results/create-json-file";
+import { createJSONFile } from "../output-results/createJsonFile";
 
 // ! Begin the program
 const startCLI = () => {
