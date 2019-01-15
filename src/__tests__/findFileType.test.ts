@@ -13,4 +13,9 @@ describe("Find the file type for the file given", () => {
   test("when given a file type of test it should return test", () => {
     expect(findFileType("findFileType.test.js", ".js", fileTypes)).toBe("test");
   });
+  test("when given a file type of ts it should return typescript", () => {
+    expect(findFileType("findFileType.ts", ".ts", fileTypes)).toBe(
+      "typescript"
+    );
+  });
 });
