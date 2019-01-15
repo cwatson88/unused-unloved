@@ -2,8 +2,9 @@ import * as fs from "fs";
 import * as path from "path";
 // tslint:disable-next-line:no-submodule-imports
 import * as uuid from "uuid/v4";
-import { findFileType } from "../file-contents/findFileType";
-import { flattenArrayDeep } from "../utils/flatten-array";
+import { flattenArrayDeep } from "../utils/flattenArray";
+import { fileTypes } from "./fileTypes";
+import { findFileType } from "./findFileType";
 
 const makeFileImportsList = (filename: string): string[] => {
   // ? What if the line just includes the word import, is there a way to tell that
@@ -73,3 +74,7 @@ const createFlatFileList = (topLevelDirectory: string) =>
 
 const addImportedByKey = (flattenedFileList: any[]) =>
   setImportedByProperty(flattenedFileList);
+
+const createFileArray = (dir: string) => dir;
+
+export { createFileArray };
