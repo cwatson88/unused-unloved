@@ -45,7 +45,7 @@ const isReactComponent = ({
   return reactComponentCheck;
 };
 
-const genralFileCheck = ({
+const basicFileCheck = ({
   fileExtension,
   fileTypeList
 }: InterfaceForFileCheck): StringOrBool =>
@@ -60,7 +60,7 @@ const findFileType = (
   fileExtension: string,
   fileTypeList: InterfaceFileType[]
 ): any => {
-  const fileCheckFunctions = [isTestFile, isReactComponent, genralFileCheck];
+  const fileCheckFunctions = [isTestFile, isReactComponent, basicFileCheck];
   for (const check of fileCheckFunctions) {
     const res: StringOrBool = check({ fileName, fileExtension, fileTypeList });
     if (res) {
