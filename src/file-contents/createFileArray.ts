@@ -32,18 +32,19 @@ const makeFileImportsList = (filename: string): string[] => {
 };
 
 // loop over the files array and if the current file is imported anywhere then list the file that imports it
-const setImportedByProperty = (fileArray: string[]): object =>
-  fileArray.map((item: any) => {
-    item.importedBy = fileArray
-      .filter(
-        (file: any): string[] =>
-          file.imports.some(
-            (str: string): boolean => RegExp(item.fileName, "gi").test(str)
-          )
-      )
-      .map((file: any) => file.fileName);
-    return item;
-  });
+const setImportedByProperty = (fileArray: object[]): object[] =>
+  flattenArrayDeep(fileArray)
+    .map((item: any) => {
+      item.importedBy = fileArray
+        .filter(
+          (file: any): string[] =>
+            file.imports.some(
+              (str: string): boolean => RegExp(item.fileName, "gi").test(str)
+            )
+        )
+        .map((file: any) => file.fileName);
+      return item;
+    });
 
 // this needs to be named like file object array - it is an array of objects containing the file details
 // Change this from recursion to a map item with an if statement
@@ -55,26 +56,25 @@ const createFileSummaryList = (dir: string): any[] => {
     const result = fs.statSync(dirPath).isDirectory()
       ? createFileSummaryList(dirPath)
       : {
-          baseName: base,
-          directory: dirPath,
-          extension: ext,
-          fileName: name,
-          imports: makeFileImportsList(dirPath),
-          type: findFileType(ext, file, fileTypes),
-          uid: uuid()
-        };
+        baseName: base,
+        directory: dirPath,
+        extension: ext,
+        fileName: name,
+        imports: makeFileImportsList(dirPath),
+        type: findFileType(ext, file, fileTypes),
+        uid: uuid()
+      };
 
     return result;
   });
   return nestedArray;
 };
 
-const createFlatFileList = (topLevelDirectory: string) =>
-  flattenArrayDeep(createFileSummaryList(topLevelDirectory));
+const createFileArray = (dir: string) => {
+  const fileList: object[] = createFileSummaryList(dir)
+  const flatFileListWithImportedByValue: object[] = setImportedByProperty(fileList);
 
-const addImportedByKey = (flattenedFileList: any[]) =>
-  setImportedByProperty(flattenedFileList);
-
-const createFileArray = (dir: string) => dir;
+  return flatFileListWithImportedByValue
+}
 
 export { createFileArray };
