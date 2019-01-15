@@ -1,12 +1,12 @@
 interface InterfaceFileType {
-    formatExtensions: string[];
-    type: string;
+  formatExtensions: string[];
+  type: string;
 }
 
 interface InterfaceForFileCheck {
-    fileName: string;
-    fileExtension: string;
-    fileTypeList: InterfaceFileType[];
+  fileName: string;
+  fileExtension: string;
+  fileTypeList: InterfaceFileType[];
 }
 
 type StringOrBool = string | boolean;
@@ -26,49 +26,48 @@ type CheckFunction = (InterfaceForFileCheck) => StringOrBool;
  */
 
 const isTestFile = ({ fileName }: InterfaceForFileCheck): StringOrBool =>
-    /\.test/gi.test(fileName) ? "test" : false;
+  /\.test/gi.test(fileName) ? "test" : false;
 
 const isReactComponent = ({
-    fileName,
-    fileExtension
+  fileName,
+  fileExtension
 }: InterfaceForFileCheck): StringOrBool => {
-    const firstLetterIsUpperCase =
-        fileName.substring(0, 1) === fileName.substring(0, 1).toUpperCase();
+  const firstLetterIsUpperCase =
+    fileName.substring(0, 1) === fileName.substring(0, 1).toUpperCase();
 
-    const reactComponentCheck: StringOrBool =
-        [".jsx", ".tsx", ".js"].some(
-            reactExtension => reactExtension === fileExtension
-        ) && firstLetterIsUpperCase
-            ? "react component"
-            : false;
+  const reactComponentCheck: StringOrBool =
+    [".jsx", ".tsx", ".js"].some(
+      reactExtension => reactExtension === fileExtension
+    ) && firstLetterIsUpperCase
+      ? "react component"
+      : false;
 
-    return reactComponentCheck;
+  return reactComponentCheck;
 };
 
 const genralFileCheck = ({
-    fileExtension,
-    fileTypeList
+  fileExtension,
+  fileTypeList
 }: InterfaceForFileCheck): StringOrBool =>
-    fileTypeList.find(({ formatExtensions }: { formatExtensions: string[] }) =>
-        formatExtensions.some(
-            (extension: string) => extension === fileExtension.toString()
-        )
-    ).type || false;
+  fileTypeList.find(({ formatExtensions }: { formatExtensions: string[] }) =>
+    formatExtensions.some(
+      (extension: string) => extension === fileExtension.toString()
+    )
+  ).type || false;
 
 const findFileType = (
-    fileName: string,
-    fileExtension: string,
-    fileTypeList: InterfaceFileType[]
-): string => {
-    const fileCheckFunctions = [isTestFile, isReactComponent, genralFileCheck]
-    for (const check of fileCheckFunctions) {
-        const res:StringOrBool = check({ fileName, fileExtension, fileTypeList })
-        if (res) {
-            return res
-        }
+  fileName: string,
+  fileExtension: string,
+  fileTypeList: InterfaceFileType[]
+): any => {
+  const fileCheckFunctions = [isTestFile, isReactComponent, genralFileCheck];
+  for (const check of fileCheckFunctions) {
+    const res: StringOrBool = check({ fileName, fileExtension, fileTypeList });
+    if (res) {
+      return res;
     }
-    return 'other'
-}
-
+  }
+  return "other";
+};
 
 export { findFileType };

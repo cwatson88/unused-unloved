@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import * as fs from "fs";
+import { createFileArray } from "../file-contents/createFileArray";
 
 const createJSONFile = (startDirName: string) =>
   fs.writeFile(

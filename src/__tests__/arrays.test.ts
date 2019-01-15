@@ -1,4 +1,4 @@
-import { flattenArrayDeep } from "../utils/flatten-array";
+import { flattenArrayDeep } from "../utils/flattenArray";
 
 describe("test to ensure the nested array is being correctly converted to flat map array!", () => {
   it("should flatten a simple array of arrays", () => {
