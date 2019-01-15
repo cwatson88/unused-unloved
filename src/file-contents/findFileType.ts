@@ -48,12 +48,15 @@ const isReactComponent = ({
 const basicFileCheck = ({
   fileExtension,
   fileTypeList
-}: InterfaceForFileCheck): StringOrBool =>
-  fileTypeList.find(({ formatExtensions }: { formatExtensions: string[] }) =>
-    formatExtensions.some(
-      (extension: string) => extension === fileExtension.toString()
-    )
-  ).type || false;
+}: InterfaceForFileCheck): StringOrBool => {
+  const fileTypeFound = fileTypeList.find(
+    ({ formatExtensions }: { formatExtensions: string[] }) =>
+      formatExtensions.some(
+        (extension: string) => extension === fileExtension.toString()
+      )
+  );
+  return fileTypeFound.type || false; // search if this has the object type, if not then return false
+};
 
 const findFileType = (
   fileName: string,
