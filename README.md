@@ -15,7 +15,7 @@ You can now use the contents of this folder to do as you wish, personally, I sug
 ### running is just as simple... 
 Open your React (or similar) project and make sure you are the same level as your **/src** folder and just run:
 
-    npm unused-unloved
+    unused-unloved
     
 ## Enjoy! 😁🙌
 **unused-unloved** *created by Chris Watson* - **cwatson88**⌨
