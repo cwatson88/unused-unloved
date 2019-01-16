@@ -18,9 +18,15 @@ interface InterfaceFileOutput {
 }
 
 const importCheck = (codeLinesWithImport: string[]): string[] => {
-  const imports = codeLinesWithImport.filter(
-    (line: string) => line.trim().includes("import ") // /(^import+) (["])/gim
-  );
+  const imports = codeLinesWithImport.filter((line: string) => {
+    const importLine: string = line.trim();
+    const importRegex = /^(\bimport\b)/gim;
+    const stringRegex = /\"/gi;
+
+    return (
+      importRegex.test(importLine) && importLine.match(stringRegex).length > 1
+    );
+  });
 
   return imports;
 };

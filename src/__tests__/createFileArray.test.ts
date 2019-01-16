@@ -1,6 +1,5 @@
 import {
-  // importCheck,
-  // getImportFilePaths,
+  importCheck,
   setImportedByProperty
 } from "../file-contents/createFileArray";
 
@@ -110,10 +109,10 @@ const correctImports = [
 ];
 
 describe("Test to ensure imports are correctly identified", () => {
-  // test("array of code lines, should return only correct urls from the array provided", () => {
-  //   expect(importCheck(correctImports)).toEqual([
-  //     'import { setImportedByProperty, checkForImports } from "../file-contents/createFileArray"; ',
-  //     'import "somejpgfile.jpg"'
-  //   ]);
-  // });
+  test("array of code lines, should return only correct urls from the array provided", () => {
+    expect(importCheck(correctImports)).toEqual([
+      'import { setImportedByProperty, checkForImports } from "../file-contents/createFileArray"; ',
+      'import "somejpgfile.jpg"'
+    ]);
+  });
 });
