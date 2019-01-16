@@ -20,13 +20,12 @@ interface InterfaceFileOutput {
 const importCheck = (codeLinesWithImport: string[]): string[] => {
   const imports = codeLinesWithImport.filter(
     (line: string) => line.trim().includes("import ") // /(^import+) (["])/gim
-  )
+  );
 
-  return imports
-}
+  return imports;
+};
 
 const getImportFilePaths = (codeLinesWithImport: string[]): string[] =>
-
   importCheck(codeLinesWithImport) // TODO does this need a space after
     .map((line: string) => {
       const start = line.lastIndexOf("from") + 4;
@@ -91,14 +90,14 @@ const createFileSummaryList = (dir: string): any[] => {
     const result = fs.statSync(dirPath).isDirectory()
       ? createFileSummaryList(dirPath)
       : {
-        baseName: base,
-        directory: dirPath,
-        extension: ext,
-        fileName: name,
-        imports: makeFileImportsList(dirPath),
-        type: findFileType(file, ext, fileTypes),
-        uid: uuid()
-      };
+          baseName: base,
+          directory: dirPath,
+          extension: ext,
+          fileName: name,
+          imports: makeFileImportsList(dirPath),
+          type: findFileType(file, ext, fileTypes),
+          uid: uuid()
+        };
 
     return result;
   });
@@ -115,4 +114,9 @@ const createFileArray = (dir: string) => {
   return filesOutput;
 };
 
-export { createFileArray, setImportedByProperty, getImportFilePaths, importCheck };
+export {
+  createFileArray,
+  setImportedByProperty,
+  getImportFilePaths,
+  importCheck
+};
