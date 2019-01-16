@@ -1,4 +1,8 @@
-import { setImportedByProperty } from "../file-contents/createFileArray";
+import {
+  getImportFilePaths,
+  setImportedByProperty,
+  importCheck
+} from "../file-contents/createFileArray";
 
 const fileArray = [
   {
@@ -98,3 +102,11 @@ describe("Set the imported value on the file list output", () => {
     });
   });
 });
+
+const correctImports = ['import { setImportedByProperty, checkForImports } from "../file-contents/createFileArray"; ', 'import "somejpgfile.jpg"', "this import should not work"]
+
+describe("Test to ensure imports are correctly identified", () => {
+  test("array of code lines, should return only correct urls from the array provided", () => {
+    expect(importCheck(correctImports)).toEqual(['import { setImportedByProperty, checkForImports } from "../file-contents/createFileArray"; ', 'import "somejpgfile.jpg"'])
+  })
+})

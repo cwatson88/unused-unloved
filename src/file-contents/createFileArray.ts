@@ -17,6 +17,28 @@ interface InterfaceFileOutput {
   uid: string;
 }
 
+const importCheck = (codeLinesWithImport: string[]): string[] => {
+  const imports = codeLinesWithImport.filter(
+    (line: string) => line.trim().includes("import ") // /(^import+) (["])/gim
+  )
+
+  return imports
+}
+
+const getImportFilePaths = (codeLinesWithImport: string[]): string[] =>
+
+  importCheck(codeLinesWithImport) // TODO does this need a space after
+    .map((line: string) => {
+      const start = line.lastIndexOf("from") + 4;
+      const end = line.lastIndexOf(";") || line.length - 1; // if the dev is not using semis
+      const filePath = line
+        .substring(start, end)
+        .trim()
+        .replace(/"/g, "");
+
+      return path.normalize(filePath);
+    });
+
 const makeFileImportsList = (filename: string): string[] => {
   // ? What if the line just includes the word import, is there a way to tell that
   // ? it is actually doing an import and not just a false positive?
@@ -26,7 +48,7 @@ const makeFileImportsList = (filename: string): string[] => {
     const codeLines: string[] = fs.readFileSync(filename, "utf-8").split("\n");
 
     const importsList: string[] = codeLines
-      .filter((line: string) => line.includes("import"))
+      .filter((line: string) => line.includes("import")) // TODO does this need a space after
       .map((line: string) => {
         const start = line.lastIndexOf("from") + 4;
         const end = line.lastIndexOf(";") || line.length - 1; // if the dev is not using semis
@@ -69,14 +91,14 @@ const createFileSummaryList = (dir: string): any[] => {
     const result = fs.statSync(dirPath).isDirectory()
       ? createFileSummaryList(dirPath)
       : {
-          baseName: base,
-          directory: dirPath,
-          extension: ext,
-          fileName: name,
-          imports: makeFileImportsList(dirPath),
-          type: findFileType(file, ext, fileTypes),
-          uid: uuid()
-        };
+        baseName: base,
+        directory: dirPath,
+        extension: ext,
+        fileName: name,
+        imports: makeFileImportsList(dirPath),
+        type: findFileType(file, ext, fileTypes),
+        uid: uuid()
+      };
 
     return result;
   });
@@ -93,4 +115,4 @@ const createFileArray = (dir: string) => {
   return filesOutput;
 };
 
-export { createFileArray, setImportedByProperty };
+export { createFileArray, setImportedByProperty, getImportFilePaths, importCheck };
