@@ -17,61 +17,61 @@ interface InterfaceFileOutput {
   uid: string;
 }
 
-const importCheck = (codeLinesWithImport: string[]): string[] => {
-  const imports = codeLinesWithImport.filter((line: string) => {
-    const importLine: string = line.trim();
-    const importRegex = /^(\bimport\b)/gim;
-    const stringRegex = /\"/gi;
+const importCheck = (codeLinesWithImport: string): boolean => {
+  const importLine: string = codeLinesWithImport.trim();
+  const importRegex = /^(\bimport\b)/gim;
+  const stringRegex = /\"/gi;
 
-    return (
-      importRegex.test(importLine) && importLine.match(stringRegex).length > 1
-    );
-  });
-
-  return imports;
+  return (
+    importRegex.test(importLine) && importLine.match(stringRegex).length > 1
+  );
 };
 
-const getImportedFilePath = (codeLineWithImport: string, quotesType: string = "double"): string => {
-  // Should this auto change quotes or ask the user? 
+const getImportedFilePath = (
+  codeLineWithImport: string,
+  quotesType: string = "double"
+): string => {
+  // Should this auto change quotes or ask the user?
   // Do we need more robust checking in place to find the imported path?
 
   let quotes;
 
   switch (quotesType) {
-    case 'single':
-      quotes = /\'(\w|\W)+?\'/gi
-      break
-    case 'double':
-      quotes = /\"(\w|\W)+?\"/gi
+    case "single":
+      quotes = /\'(\w|\W)+?\'/gi;
+      break;
+    case "double":
+      quotes = /\"(\w|\W)+?\"/gi;
       break;
     default:
-      console.log("Please define the types of string that you are using for imports")
+      console.log(
+        "Please define the types of string that you are using for imports"
+      );
   }
 
   if (quotes.test(codeLineWithImport)) {
-
-    const [filePath] = codeLineWithImport.match(quotes) // take the first value and discard the rest
-    const importPath = filePath.trim().replace(/"/g, "")
+    const [filePath] = codeLineWithImport.match(quotes); // take the first value and discard the rest
+    const importPath = filePath.trim().replace(/"/g, "");
 
     return path.normalize(importPath);
   } else {
-    return null
+    return null;
   }
-
-}
+};
 
 const makeFileImportsList = (filename: string): string[] => {
-
   if (!fs.statSync(filename).isDirectory()) {
     const codeLines: string[] = fs.readFileSync(filename, "utf-8").split("\n");
 
-    const importsList: string[] =
-      importCheck(codeLines)
-        .filter((line: string) => getImportedFilePath(line)) // second to check to make sure only actual file paths are returned
+    const importsList: string[] = codeLines
+      .filter((line: string) => importCheck(line))
+      .filter(
+        (line: string) => getImportedFilePath(line)
+      ); // second to check to make sure only actual file paths are returned
 
-    return importsList
-  };
-}
+    return importsList;
+  }
+};
 
 // checks the file agains the file list to see if it is included
 const setImportedByProperty = (
@@ -129,4 +129,4 @@ export {
   setImportedByProperty,
   getImportedFilePath,
   importCheck
-}
+};
