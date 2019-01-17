@@ -65,9 +65,7 @@ const makeFileImportsList = (filename: string): string[] => {
 
     const importsList: string[] = codeLines
       .filter((line: string) => importCheck(line))
-      .filter(
-        (line: string) => getImportedFilePath(line)
-      ); // second to check to make sure only actual file paths are returned
+      .filter((line: string) => getImportedFilePath(line)); // second to check to make sure only actual file paths are returned
 
     return importsList;
   }
@@ -100,14 +98,14 @@ const createFileSummaryList = (dir: string): any[] => {
     const result = fs.statSync(dirPath).isDirectory()
       ? createFileSummaryList(dirPath)
       : {
-        baseName: base,
-        directory: dirPath,
-        extension: ext,
-        fileName: name,
-        imports: makeFileImportsList(dirPath),
-        type: findFileType(file, ext, fileTypes),
-        uid: uuid()
-      };
+          baseName: base,
+          directory: dirPath,
+          extension: ext,
+          fileName: name,
+          imports: makeFileImportsList(dirPath),
+          type: findFileType(file, ext, fileTypes),
+          uid: uuid()
+        };
 
     return result;
   });
