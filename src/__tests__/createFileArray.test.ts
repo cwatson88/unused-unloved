@@ -1,6 +1,7 @@
 import {
+  getImportedFilePath,
   importCheck,
-  setImportedByProperty
+  setImportedByProperty,
 } from "../file-contents/createFileArray";
 
 const fileArray = [
@@ -116,3 +117,12 @@ describe("Test to ensure imports are correctly identified", () => {
     ]);
   });
 });
+
+describe("Get the file path for the import", () => {
+  test("should only get the file path", () => {
+    expect(getImportedFilePath(correctImports[0], 'double')).toBe("..\\file-contents\\createFileArray")
+    expect(getImportedFilePath(correctImports[1])).toBe("somejpgfile.jpg")
+    expect(getImportedFilePath(`import "some/import" "somejpgfile.jpg"`, "double")).toBe("some\\import")
+    expect(getImportedFilePath(`import somejpgfile.jpg"`, "double")).toBe(null)
+  })
+})

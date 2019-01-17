@@ -31,43 +31,47 @@ const importCheck = (codeLinesWithImport: string[]): string[] => {
   return imports;
 };
 
-const getImportFilePaths = (codeLinesWithImport: string[]): string[] =>
-  importCheck(codeLinesWithImport) // TODO does this need a space after
-    .map((line: string) => {
-      const start = line.lastIndexOf("from") + 4;
-      const end = line.lastIndexOf(";") || line.length - 1; // if the dev is not using semis
-      const filePath = line
-        .substring(start, end)
-        .trim()
-        .replace(/"/g, "");
+const getImportedFilePath = (codeLineWithImport: string, quotesType: string = "double"): string => {
+  // Should this auto change quotes or ask the user? 
+  // Do we need more robust checking in place to find the imported path?
 
-      return path.normalize(filePath);
-    });
+  let quotes;
+
+  switch (quotesType) {
+    case 'single':
+      quotes = /\'(\w|\W)+?\'/gi
+      break
+    case 'double':
+      quotes = /\"(\w|\W)+?\"/gi
+      break;
+    default:
+      console.log("Please define the types of string that you are using for imports")
+  }
+
+  if (quotes.test(codeLineWithImport)) {
+
+    const [filePath] = codeLineWithImport.match(quotes) // take the first value and discard the rest
+    const importPath = filePath.trim().replace(/"/g, "")
+
+    return path.normalize(importPath);
+  } else {
+    return null
+  }
+
+}
 
 const makeFileImportsList = (filename: string): string[] => {
-  // ? What if the line just includes the word import, is there a way to tell that
-  // ? it is actually doing an import and not just a false positive?
-  // ? checking for the word from wouldn't help due to simple whole file imports.
 
   if (!fs.statSync(filename).isDirectory()) {
     const codeLines: string[] = fs.readFileSync(filename, "utf-8").split("\n");
 
-    const importsList: string[] = codeLines
-      .filter((line: string) => line.includes("import")) // TODO does this need a space after
-      .map((line: string) => {
-        const start = line.lastIndexOf("from") + 4;
-        const end = line.lastIndexOf(";") || line.length - 1; // if the dev is not using semis
-        const filePath = line
-          .substring(start, end)
-          .trim()
-          .replace(/"/g, "");
+    const importsList: string[] =
+      importCheck(codeLines)
+        .filter((line: string) => getImportedFilePath(line)) // second to check to make sure only actual file paths are returned
 
-        return path.normalize(filePath);
-      });
-
-    return importsList;
-  }
-};
+    return importsList
+  };
+}
 
 // checks the file agains the file list to see if it is included
 const setImportedByProperty = (
@@ -96,14 +100,14 @@ const createFileSummaryList = (dir: string): any[] => {
     const result = fs.statSync(dirPath).isDirectory()
       ? createFileSummaryList(dirPath)
       : {
-          baseName: base,
-          directory: dirPath,
-          extension: ext,
-          fileName: name,
-          imports: makeFileImportsList(dirPath),
-          type: findFileType(file, ext, fileTypes),
-          uid: uuid()
-        };
+        baseName: base,
+        directory: dirPath,
+        extension: ext,
+        fileName: name,
+        imports: makeFileImportsList(dirPath),
+        type: findFileType(file, ext, fileTypes),
+        uid: uuid()
+      };
 
     return result;
   });
@@ -123,6 +127,6 @@ const createFileArray = (dir: string) => {
 export {
   createFileArray,
   setImportedByProperty,
-  getImportFilePaths,
+  getImportedFilePath,
   importCheck
-};
+}
