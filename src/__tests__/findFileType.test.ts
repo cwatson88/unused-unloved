@@ -2,7 +2,7 @@ import { fileTypes } from "../file-contents/fileTypes";
 import { findFileType } from "../file-contents/findFileType";
 
 describe("Find the file type for the file given", () => {
-  test("when given a camel case file it should return react.", () => {
+  test("when given a pascal case file it should return react.", () => {
     expect(findFileType("FindFileType.js", ".js", fileTypes)).toBe(
       "react component"
     );
