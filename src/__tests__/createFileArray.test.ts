@@ -111,8 +111,8 @@ const dummyImportList = [
 
 describe("Test to ensure imports are correctly identified", () => {
   test("sting of a single line of code from the file, find the import", () => {
-    expect(importCheck(dummyImportList[0])).toBeTruthy()
-    expect(importCheck(dummyImportList[2])).toBeFalsy()
+    expect(importCheck(dummyImportList[0])).toBeTruthy();
+    expect(importCheck(dummyImportList[2])).toBeFalsy();
   });
 });
 
