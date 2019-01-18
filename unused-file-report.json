@@ -1,0 +1,143 @@
+[
+  {
+    "baseName": "start.ts",
+    "directory": "src\\command-line-input\\start.ts",
+    "extension": ".ts",
+    "fileName": "start",
+    "imports": [
+      "chalk",
+      "fs",
+      "path",
+      "..\\output-results\\createJsonFile"
+    ],
+    "type": "typescript",
+    "uid": "fbbe59b9-8c02-4cf0-aaa2-f4a999288c8b",
+    "importedBy": [
+      "index"
+    ]
+  },
+  {
+    "baseName": "createFileArray.ts",
+    "directory": "src\\file-contents\\createFileArray.ts",
+    "extension": ".ts",
+    "fileName": "createFileArray",
+    "imports": [
+      "fs",
+      "path",
+      "uuid\\v4",
+      "..\\utils\\flattenArray",
+      "fileTypes",
+      "findFileType"
+    ],
+    "type": "typescript",
+    "uid": "09c8318d-3a39-4555-b082-d4922d3b13c0",
+    "importedBy": [
+      "createJsonFile"
+    ]
+  },
+  {
+    "baseName": "fileTypes.ts",
+    "directory": "src\\file-contents\\fileTypes.ts",
+    "extension": ".ts",
+    "fileName": "fileTypes",
+    "imports": [],
+    "type": "typescript",
+    "uid": "52ebddeb-ad86-4b55-a40d-158f60d9ba73",
+    "importedBy": [
+      "createFileArray",
+      "findFileType.test"
+    ]
+  },
+  {
+    "baseName": "findFileType.ts",
+    "directory": "src\\file-contents\\findFileType.ts",
+    "extension": ".ts",
+    "fileName": "findFileType",
+    "imports": [],
+    "type": "typescript",
+    "uid": "ca616d18-4768-41d0-a421-e592686dbe75",
+    "importedBy": [
+      "createFileArray",
+      "findFileType.test"
+    ]
+  },
+  {
+    "baseName": "index.ts",
+    "directory": "src\\index.ts",
+    "extension": ".ts",
+    "fileName": "index",
+    "imports": [
+      "chalk",
+      "fs",
+      "inquirer",
+      "command-line-input\\start"
+    ],
+    "type": "typescript",
+    "uid": "92b2f06e-ca61-4848-984b-4d23f7d5aed2",
+    "importedBy": []
+  },
+  {
+    "baseName": "createJsonFile.ts",
+    "directory": "src\\output-results\\createJsonFile.ts",
+    "extension": ".ts",
+    "fileName": "createJsonFile",
+    "imports": [
+      "chalk",
+      "fs",
+      "..\\file-contents\\createFileArray"
+    ],
+    "type": "typescript",
+    "uid": "0c5b7db2-3fdf-459b-8ba0-1b9c235a6733",
+    "importedBy": [
+      "start"
+    ]
+  },
+  {
+    "baseName": "flattenArray.ts",
+    "directory": "src\\utils\\flattenArray.ts",
+    "extension": ".ts",
+    "fileName": "flattenArray",
+    "imports": [],
+    "type": "typescript",
+    "uid": "b274f89d-2db9-40e3-bc5c-c1ce52888c3f",
+    "importedBy": [
+      "createFileArray",
+      "arrays.test"
+    ]
+  },
+  {
+    "baseName": "arrays.test.ts",
+    "directory": "src\\__tests__\\arrays.test.ts",
+    "extension": ".ts",
+    "fileName": "arrays.test",
+    "imports": [
+      "..\\utils\\flattenArray"
+    ],
+    "type": "test",
+    "uid": "d55d397f-e530-490b-a50c-880da2533416",
+    "importedBy": []
+  },
+  {
+    "baseName": "createFileArray.test.ts",
+    "directory": "src\\__tests__\\createFileArray.test.ts",
+    "extension": ".ts",
+    "fileName": "createFileArray.test",
+    "imports": [],
+    "type": "test",
+    "uid": "2f4bf31e-1cea-431a-9792-79d578369cd7",
+    "importedBy": []
+  },
+  {
+    "baseName": "findFileType.test.ts",
+    "directory": "src\\__tests__\\findFileType.test.ts",
+    "extension": ".ts",
+    "fileName": "findFileType.test",
+    "imports": [
+      "..\\file-contents\\fileTypes",
+      "..\\file-contents\\findFileType"
+    ],
+    "type": "test",
+    "uid": "4c418689-8d20-4e66-8a5d-c74ca2dacd5d",
+    "importedBy": []
+  }
+]

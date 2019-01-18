@@ -17,40 +17,26 @@ interface InterfaceFileOutput {
   uid: string;
 }
 
-const importCheck = (codeLinesWithImport: string): boolean => {
-  const importLine: string = codeLinesWithImport.trim();
-  const importRegex = /^(\bimport\b)/gim;
-  const stringRegex = /\"/gi;
-
-  return (
-    importRegex.test(importLine) && importLine.match(stringRegex).length > 1
-  );
+const removeQuotationMarks = (
+  stringToMatch: string,
+  quotesType: string = "double"
+): string[] => {
+  const quotesRegex = new RegExp(`${quotesType}.+${quotesType}`, "gim");
+  // line breaks need to be removed first to ensure that the regex works
+  return stringToMatch.replace("\n", "").match(quotesRegex);
 };
 
-const getImportedFilePath = (
+const getFilePathFromModule = (
   codeLineWithImport: string,
-  quotesType: string = "double"
+  quotesType: string = `"`
 ): string => {
   // Should this auto change quotes or ask the user?
-  // Do we need more robust checking in place to find the imported path?
 
-  let quotes;
+  const [quoteSearchResults] = removeQuotationMarks(codeLineWithImport);
 
-  switch (quotesType) {
-    case "single":
-      quotes = /\'(\w|\W)+?\'/gi;
-      break;
-    case "double":
-      quotes = /\"(\w|\W)+?\"/gi;
-      break;
-    default:
-      console.log(
-        "Please define the types of string that you are using for imports"
-      );
-  }
-
-  if (quotes.test(codeLineWithImport)) {
-    const [filePath] = codeLineWithImport.match(quotes); // take the first value and discard the rest
+  if (quoteSearchResults) {
+    const [filePath] = quoteSearchResults; // take the first value and discard the rest
+    const findQuotes = new RegExp(`${quotesType}`, g);
     const importPath = filePath.trim().replace(/"/g, "");
 
     return path.normalize(importPath);
@@ -59,13 +45,52 @@ const getImportedFilePath = (
   }
 };
 
+// get the whole file as a string and break down the imports/requires to an array
+const getFileModules = (
+  codeLineWithImport: string,
+  moduleType: string = "import",
+  quoteType: string = `"`
+): string[] => {
+  // ? this takes a big string and breaks it down don't give it an array(s)
+  const matchImports: RegExp = new RegExp(
+    `(\t|^)(import[^]*?${quoteType}[^]*?${quoteType}\s?)`,
+    `mig`
+  );
+  const matchRequires: RegExp = new RegExp(
+    `\b(require\(${quoteType}[^]*?${quoteType}\)\s?)`,
+    `gm`
+  );
+
+  let modulesRegex: RegExp;
+
+  switch (moduleType) {
+    case "import":
+      modulesRegex = matchImports;
+      break;
+    case "require":
+      modulesRegex = matchRequires;
+      break;
+    default:
+      console.log("imports has not been set");
+  }
+
+  try {
+    const match: string[] = codeLineWithImport.match(modulesRegex);
+    return match;
+  } catch (e) {
+    console.log(
+      "Ah there was an issue with working out if you set imports or exports!"
+    );
+  }
+};
+
 const makeFileImportsList = (filename: string): string[] => {
   if (!fs.statSync(filename).isDirectory()) {
-    const codeLines: string[] = fs.readFileSync(filename, "utf-8").split("\n");
+    const fileContents: string = fs.readFileSync(filename, "utf-8");
 
-    const importsList: string[] = codeLines
-      .filter((line: string) => importCheck(line))
-      .filter((line: string) => getImportedFilePath(line)); // second to check to make sure only actual file paths are returned
+    const importsList: string[] = getFileModules(fileContents).map(
+      (line: string) => getFilePathFromModule(line)
+    ); // second to check to make sure only actual file paths are returned
 
     return importsList;
   }
@@ -125,6 +150,6 @@ const createFileArray = (dir: string) => {
 export {
   createFileArray,
   setImportedByProperty,
-  getImportedFilePath,
-  importCheck
+  getFilePathFromModule,
+  getFileModules
 };
