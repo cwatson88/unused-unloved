@@ -36,7 +36,7 @@ const getFilePathFromModule = (
 
   if (quoteSearchResults) {
     const [filePath] = quoteSearchResults; // take the first value and discard the rest
-    const findQuotes = new RegExp(`${quotesType}`, g);
+    const findQuotes = new RegExp(`${quotesType}`, 'g');
     const importPath = filePath.trim().replace(/"/g, "");
 
     return path.normalize(importPath);
