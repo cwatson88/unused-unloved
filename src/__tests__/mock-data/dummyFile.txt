@@ -1,0 +1,15 @@
+import { fakeFunction, anotherFakeFunction } from '/someFakeFileThatDoesNotExist.js'
+import { fakeFunction, anotherFakeFunction } from "/someFakeFileThatDoesNotExist.js";
+import { 
+    fakeFunction, 
+    anotherFakeFunction 
+    } from "/someFakeFileThatDoesNotExist.js"
+import "fakeImage"
+
+"This text talks about some kinda imports"
+"import nothing"
+
+const someObject = {
+    test,
+    test2
+}

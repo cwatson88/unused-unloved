@@ -1,8 +1,9 @@
 import {
-  getImportedFilePath,
-  importCheck,
+  getFileModules,
   setImportedByProperty
 } from "../file-contents/createFileArray";
+
+import * as fs from "fs";
 
 const fileArray = [
   {
@@ -109,22 +110,13 @@ const dummyImportList = [
   "this import should not work"
 ];
 
-describe("Test to ensure imports are correctly identified", () => {
-  test("sting of a single line of code from the file, find the import", () => {
-    expect(importCheck(dummyImportList[0])).toBeTruthy();
-    expect(importCheck(dummyImportList[2])).toBeFalsy();
-  });
-});
-
-describe("Get the file path for the import", () => {
-  test("should only get the file path", () => {
-    expect(getImportedFilePath(dummyImportList[0], "double")).toBe(
-      "..\\file-contents\\createFileArray"
-    );
-    expect(getImportedFilePath(dummyImportList[1])).toBe("somejpgfile.jpg");
-    expect(
-      getImportedFilePath(`import "some/import" "somejpgfile.jpg"`, "double")
-    ).toBe("some\\import");
-    expect(getImportedFilePath(`import somejpgfile.jpg"`, "double")).toBe(null);
+describe("Test to ensure imports are correctly identified by passing in a whole file as a string.", () => {
+  const dummyFileContents: string = fs.readFileSync(
+    "./src/__tests__/mock-data/dummyFile.txt",
+    "utf-8"
+  );
+  test("should return an array of imports", () => {
+    expect(getFileModules(dummyFileContents)).toBeTruthy();
+    // expect(getFileModules(dummyFileContents)).toContain(`import { fakeFunction, anotherFakeFunction } from \"/someFakeFileThatDoesNotExist.js\"`);
   });
 });
