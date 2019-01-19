@@ -115,8 +115,19 @@ describe("Test to ensure imports are correctly identified by passing in a whole 
     "./src/__tests__/mock-data/dummyFile.txt",
     "utf-8"
   );
-  test("should return an array of imports", () => {
+  test("should return an array of imports and not requires", () => {
     expect(getFileModules(dummyFileContents)).toBeTruthy();
-    // expect(getFileModules(dummyFileContents)).toContain(`import { fakeFunction, anotherFakeFunction } from \"/someFakeFileThatDoesNotExist.js\"`);
+    expect(getFileModules(dummyFileContents)).not.toContain(
+      `require('someFile')`
+    );
+
+    expect(getFileModules(dummyFileContents)).toContain(
+      `import { fakeFunction, anotherFakeFunction } from \"/someFakeFileThatDoesNotExist.js\"`
+    );
+  });
+  test("check that requires works when given the require param ", () => {
+    expect(getFileModules(dummyFileContents, "require")).toContain(
+      `require('someFile'`
+    ); // it does not pick up the addio
   });
 });

@@ -36,7 +36,7 @@ const getFilePathFromModule = (
 
   if (quoteSearchResults) {
     const [filePath] = quoteSearchResults; // take the first value and discard the rest
-    const findQuotes = new RegExp(`${quotesType}`, 'g');
+    const findQuotes = new RegExp(`${quotesType}`, "g");
     const importPath = filePath.trim().replace(/"/g, "");
 
     return path.normalize(importPath);
@@ -45,41 +45,24 @@ const getFilePathFromModule = (
   }
 };
 
+// TODO: make sure that you ask the user to choose require vs import or should you allow BOTH?
 // get the whole file as a string and break down the imports/requires to an array
 const getFileModules = (
   codeLineWithImport: string,
-  moduleType: string = "import",
-  quoteType: string = `"`
+  moduleType: string = "import"
 ): string[] => {
   // ? this takes a big string and breaks it down don't give it an array(s)
-  const matchImports: RegExp = new RegExp(
-    `(\t|^)(import[^]*?${quoteType}[^]*?${quoteType}\s?)`,
+  const matchModuleType: RegExp = new RegExp(
+    `(\t|^)(${moduleType}[^.]*?"[^]*?"\s?)|(${moduleType}[^.]*?'[^]*?'\s?)`,
     `mig`
-  );
-  const matchRequires: RegExp = new RegExp(
-    `\b(require\(${quoteType}[^]*?${quoteType}\)\s?)`,
-    `gm`
-  );
-
-  let modulesRegex: RegExp;
-
-  switch (moduleType) {
-    case "import":
-      modulesRegex = matchImports;
-      break;
-    case "require":
-      modulesRegex = matchRequires;
-      break;
-    default:
-      console.log("imports has not been set");
-  }
+  ); // this will match both single and double quotes
 
   try {
-    const match: string[] = codeLineWithImport.match(modulesRegex);
+    const match: string[] = codeLineWithImport.match(matchModuleType);
     return match;
   } catch (e) {
     console.log(
-      "Ah there was an issue with working out if you set imports or exports!"
+      "Ah there was an issue with getting your files, make sure that you have chosen import or require!"
     );
   }
 };
