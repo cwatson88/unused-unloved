@@ -13,3 +13,6 @@ const someObject = {
     test,
     test2
 }
+
+const req = require('someFile')
+const req2 = require("someOtherFile")
