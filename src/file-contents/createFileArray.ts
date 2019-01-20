@@ -17,32 +17,14 @@ interface InterfaceFileOutput {
   uid: string;
 }
 
-const removeQuotationMarks = (
-  stringToMatch: string,
-  quotesType: string = "double"
-): string[] => {
-  const quotesRegex = new RegExp(`${quotesType}.+${quotesType}`, "gim");
-  // line breaks need to be removed first to ensure that the regex works
-  return stringToMatch.replace("\n", "").match(quotesRegex);
-};
+// Get the file path without quotes
+const getFilePathFromModule = (moduleCode: string): string => {
+  // match both single and double qquoted file paths
+  const filePathRegex: RegExp = new RegExp(`("[^]*?"\s?)|('[^]*?'\s?)`, "gi");
+  const [filePath]: string[] = moduleCode.match(filePathRegex);
+  const importPath: string = filePath.trim().replace(/"|'/g, "");
 
-const getFilePathFromModule = (
-  codeLineWithImport: string,
-  quotesType: string = `"`
-): string => {
-  // Should this auto change quotes or ask the user?
-
-  const [quoteSearchResults] = removeQuotationMarks(codeLineWithImport);
-
-  if (quoteSearchResults) {
-    const [filePath] = quoteSearchResults; // take the first value and discard the rest
-    const findQuotes = new RegExp(`${quotesType}`, "g");
-    const importPath = filePath.trim().replace(/"/g, "");
-
-    return path.normalize(importPath);
-  } else {
-    return null;
-  }
+  return path.normalize(importPath);
 };
 
 // TODO: make sure that you ask the user to choose require vs import or should you allow BOTH?

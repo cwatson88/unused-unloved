@@ -1,5 +1,6 @@
 import {
   getFileModules,
+  getFilePathFromModule,
   setImportedByProperty
 } from "../file-contents/createFileArray";
 
@@ -130,4 +131,17 @@ describe("Test to ensure imports are correctly identified by passing in a whole 
       `require('someFile'`
     ); // it does not pick up the addio
   });
+});
+
+describe("When passed a long string it will remove the quotes", () => {
+  test("return a path withoutstrings", () => {
+    expect(
+      getFilePathFromModule(`import { fakeFunction, anotherFakeFunction } from "/someFakeFileThatDoesNotExist.js";
+`)
+    ).toBe(`/someFakeFileThatDoesNotExist.js`);
+  });
+  expect(
+    getFilePathFromModule(`import { fakeFunction, anotherFakeFunction } from '/someFakeFileThatDoesNotExist.js';
+`)
+  ).toBe(`/someFakeFileThatDoesNotExist.js`);
 });
