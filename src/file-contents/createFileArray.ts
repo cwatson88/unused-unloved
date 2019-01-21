@@ -88,14 +88,14 @@ const createFileSummaryList = (dir: string): any[] => {
     const result = fs.statSync(dirPath).isDirectory()
       ? createFileSummaryList(dirPath)
       : {
-          baseName: base,
-          directory: dirPath,
-          extension: ext,
-          fileName: name,
-          imports: makeFileImportsList(dirPath),
-          type: findFileType(file, ext, fileTypes),
-          uid: uuid()
-        };
+        baseName: base,
+        directory: dirPath,
+        extension: ext,
+        fileName: name,
+        imports: makeFileImportsList(dirPath),
+        type: findFileType(file, ext, fileTypes),
+        uid: uuid()
+      };
 
     return result;
   });
@@ -116,5 +116,6 @@ export {
   createFileArray,
   setImportedByProperty,
   getFilePathFromModule,
-  getFileModules
+  getFileModules,
+  makeFileImportsList
 };
