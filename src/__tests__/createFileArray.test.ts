@@ -1,10 +1,12 @@
 import {
   getFileModules,
   getFilePathFromModule,
+  makeFileImportsList,
   setImportedByProperty
 } from "../file-contents/createFileArray";
 
 import * as fs from "fs";
+import * as path from "path";
 
 const fileArray = [
   {
@@ -138,10 +140,17 @@ describe("When passed a long string it will remove the quotes", () => {
     expect(
       getFilePathFromModule(`import { fakeFunction, anotherFakeFunction } from "/someFakeFileThatDoesNotExist.js";
 `)
-    ).toBe(`/someFakeFileThatDoesNotExist.js`);
+    ).toBe(path.normalize(`/someFakeFileThatDoesNotExist.js`))
   });
   expect(
     getFilePathFromModule(`import { fakeFunction, anotherFakeFunction } from '/someFakeFileThatDoesNotExist.js';
 `)
-  ).toBe(`/someFakeFileThatDoesNotExist.js`);
+  ).toBe(path.normalize(`/someFakeFileThatDoesNotExist.js`));
 });
+
+
+describe("The makeImportsList should get the file and spit out imports as an array", () => {
+  test('should display an array of imports', () => {
+    expect(makeFileImportsList(path.normalize(`./src/__tests__/createFileArray.test.ts`))).toContain(path.normalize("../file-contents/createFileArray"))
+  })
+})
