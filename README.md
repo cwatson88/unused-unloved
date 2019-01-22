@@ -1,3 +1,10 @@
+[![Build Status](https://travis-ci.org/cwatson88/unused-unloved.svg?branch=typescript-rewrite)](https://travis-ci.org/cwatson88/unused-unloved)
+![](https://img.shields.io/snyk/vulnerabilities/github/cwatson88/unused-unloved.svg)
+
+[![NPM](https://nodei.co/npm/unused-unloved.png)](https://nodei.co/npm/unused-unloved/)
+
+
+
 # unused-unloved
 
 🌳Tree shaking is great but what happens when you have so many 📁files in your dev environment you can't remember which ones are actually in use😵🤷‍♂️🤷‍♀️ and those that are currently dormant? 
