@@ -140,7 +140,7 @@ describe("When passed a long string it will remove the quotes", () => {
     expect(
       getFilePathFromModule(`import { fakeFunction, anotherFakeFunction } from "/someFakeFileThatDoesNotExist.js";
 `)
-    ).toBe(path.normalize(`/someFakeFileThatDoesNotExist.js`))
+    ).toBe(path.normalize(`/someFakeFileThatDoesNotExist.js`));
   });
   expect(
     getFilePathFromModule(`import { fakeFunction, anotherFakeFunction } from '/someFakeFileThatDoesNotExist.js';
@@ -148,9 +148,12 @@ describe("When passed a long string it will remove the quotes", () => {
   ).toBe(path.normalize(`/someFakeFileThatDoesNotExist.js`));
 });
 
-
 describe("The makeImportsList should get the file and spit out imports as an array", () => {
-  test('should display an array of imports', () => {
-    expect(makeFileImportsList(path.normalize(`./src/__tests__/createFileArray.test.ts`))).toContain(path.normalize("../file-contents/createFileArray"))
-  })
-})
+  test("should display an array of imports", () => {
+    expect(
+      makeFileImportsList(
+        path.normalize(`./src/__tests__/createFileArray.test.ts`)
+      )
+    ).toContain(path.normalize("../file-contents/createFileArray"));
+  });
+});
