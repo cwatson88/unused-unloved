@@ -40,7 +40,7 @@ const getFileModules = (
   ); // this will match both single and double quotes
 
   try {
-    const match: string[] = codeLineWithImport.match(matchModuleType);
+    const match: string[] = codeLineWithImport.match(matchModuleType) || [];
     return match;
   } catch (e) {
     console.log(
@@ -50,15 +50,21 @@ const getFileModules = (
 };
 
 const makeFileImportsList = (filename: string): string[] => {
+
   if (!fs.statSync(filename).isDirectory()) {
-    const fileContents: string = fs.readFileSync(filename, "utf-8");
+    try {
+      const fileContents: string = fs.readFileSync(filename, "utf-8");
+      const importsList: string[] = getFileModules(fileContents).map(
+        (line: string) => getFilePathFromModule(line)
+      ); // second to check to make sure only actual file paths are returned
 
-    const importsList: string[] = getFileModules(fileContents).map(
-      (line: string) => getFilePathFromModule(line)
-    ); // second to check to make sure only actual file paths are returned
-
-    return importsList;
+      return importsList;
+    }
+    catch (e) {
+      console.log("error with making the file import list...")
+    }
   }
+
 };
 
 // checks the file agains the file list to see if it is included
@@ -88,14 +94,14 @@ const createFileSummaryList = (dir: string): any[] => {
     const result = fs.statSync(dirPath).isDirectory()
       ? createFileSummaryList(dirPath)
       : {
-          baseName: base,
-          directory: dirPath,
-          extension: ext,
-          fileName: name,
-          imports: makeFileImportsList(dirPath),
-          type: findFileType(file, ext, fileTypes),
-          uid: uuid()
-        };
+        baseName: base,
+        directory: dirPath,
+        extension: ext,
+        fileName: name,
+        imports: makeFileImportsList(dirPath),
+        type: findFileType(file, ext, fileTypes),
+        uid: uuid()
+      };
 
     return result;
   });

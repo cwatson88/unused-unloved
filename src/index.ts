@@ -23,7 +23,7 @@ inquirer
           .readdirSync(startPath)
           .some((folderName: string) => folderName === "src")
       ) {
-        console.log(chalk.green("Yes, let's do this... ⚡️"));
+        console.log(chalk.green("Yes, let's do this... ✨⏳"));
         startCLI();
       } else {
         console.log(
