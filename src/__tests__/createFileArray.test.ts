@@ -119,9 +119,7 @@ describe("Test to ensure imports are correctly identified by passing in a whole 
     );
   });
   test("should return items from the array as requires", () => {
-    expect(getFileModules(dummyFileContents)).toContain(
-      `require('someFile'`
-    );
+    expect(getFileModules(dummyFileContents)).toContain(`require('someFile'`);
   });
 });
 

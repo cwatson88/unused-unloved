@@ -29,9 +29,7 @@ const getFilePathFromModule = (moduleCode: string): string => {
 
 // TODO: make sure that you ask the user to choose require vs import or should you allow BOTH?
 // get the whole file as a string and break down the imports/requires to an array
-const getFileModules = (
-  codeLineWithImport: string
-): string[] => {
+const getFileModules = (codeLineWithImport: string): string[] => {
   // ? throw this into https://regexr.com/ and test (currently works with scss, imports & requires)
   const matchModuleType: RegExp = new RegExp(
     `((((\t|^)(@import|import))|(require\s?[\(]))[^]*?["'][^]*?["']\s?)`,
@@ -90,14 +88,14 @@ const createFileSummaryList = (dir: string): any[] => {
     const result = fs.statSync(dirPath).isDirectory()
       ? createFileSummaryList(dirPath)
       : {
-        baseName: base,
-        directory: dirPath,
-        extension: ext,
-        fileName: name,
-        imports: makeFileImportsList(dirPath),
-        type: findFileType(file, ext, fileTypes),
-        uid: uuid()
-      };
+          baseName: base,
+          directory: dirPath,
+          extension: ext,
+          fileName: name,
+          imports: makeFileImportsList(dirPath),
+          type: findFileType(file, ext, fileTypes),
+          uid: uuid()
+        };
 
     return result;
   });
