@@ -16,3 +16,8 @@ const someObject = {
 
 const req = require('someFile')
 const req2 = require("someOtherFile")
+
+@import "some CSS"
+@import 'ore CSS'
+
+so many @imports and requires ''
