@@ -10,7 +10,7 @@ const createJSONFile = (startDirName: string) =>
       if (err) {
         throw err;
       } else {
-        console.log(chalk.blue("The file has been saved!ðŸŽŠðŸŽŠ"));
+        console.log(chalk.blue("The file has been saved! 🎊🎉✨✨"));
         console.log(
           chalk.italic(
             "Try copy and pasting the contents of unused-file-report.json into http://json2table.com/"

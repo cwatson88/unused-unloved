@@ -107,31 +107,19 @@ describe("Set the imported value on the file list output", () => {
   });
 });
 
-const dummyImportList = [
-  'import { setImportedByProperty, checkForImports } from "../file-contents/createFileArray"; ',
-  'import "somejpgfile.jpg"',
-  "this import should not work"
-];
-
 describe("Test to ensure imports are correctly identified by passing in a whole file as a string.", () => {
   const dummyFileContents: string = fs.readFileSync(
     "./src/__tests__/mock-data/dummyFile.txt",
     "utf-8"
   );
-  test("should return an array of imports and not requires", () => {
+  test("should return items from the array as imports ", () => {
     expect(getFileModules(dummyFileContents)).toBeTruthy();
-    expect(getFileModules(dummyFileContents)).not.toContain(
-      `require('someFile')`
-    );
-
     expect(getFileModules(dummyFileContents)).toContain(
       `import { fakeFunction, anotherFakeFunction } from \"/someFakeFileThatDoesNotExist.js\"`
     );
   });
-  test("check that requires works when given the require param ", () => {
-    expect(getFileModules(dummyFileContents, "require")).toContain(
-      `require('someFile'`
-    ); // it does not pick up the addio
+  test("should return items from the array as requires", () => {
+    expect(getFileModules(dummyFileContents)).toContain(`require('someFile'`);
   });
 });
 

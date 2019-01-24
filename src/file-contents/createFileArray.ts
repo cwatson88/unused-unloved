@@ -29,14 +29,11 @@ const getFilePathFromModule = (moduleCode: string): string => {
 
 // TODO: make sure that you ask the user to choose require vs import or should you allow BOTH?
 // get the whole file as a string and break down the imports/requires to an array
-const getFileModules = (
-  codeLineWithImport: string,
-  moduleType: string = "import"
-): string[] => {
-  // ? this takes a big string and breaks it down don't give it an array(s)
+const getFileModules = (codeLineWithImport: string): string[] => {
+  // ? throw this into https://regexr.com/ and test (currently works with scss, imports & requires)
   const matchModuleType: RegExp = new RegExp(
-    `(\t|^)(${moduleType}[^.]*?"[^]*?"\s?)|(${moduleType}[^.]*?'[^]*?'\s?)`,
-    `mig`
+    `((((\t|^)(@import|import))|(require\s?[\(]))[^]*?["'][^]*?["']\s?)`,
+    `gim`
   ); // this will match both single and double quotes
 
   try {
@@ -44,7 +41,7 @@ const getFileModules = (
     return match;
   } catch (e) {
     console.log(
-      "Ah there was an issue with getting your files, make sure that you have chosen import or require!"
+      "Ah there was an issue with finding the correct import / require value."
     );
   }
 };
