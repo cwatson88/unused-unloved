@@ -1,12 +1,9 @@
 {
   "name": "@jeremistadler/unused-unloved",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Find all the unused files 🗂 by checking all unused imports in your React project (no need for a webpack plugin). List out all those files in a nice JSON file to do what you like with!",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "files": [
-    "lib /**/*"
-  ],
   "scripts": {
     "test": "jest",
     "coverage": "jest --coverage",
