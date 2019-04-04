@@ -10,7 +10,7 @@
   "scripts": {
     "test": "jest",
     "coverage": "jest --coverage",
-    "build": "parcel build ./src/index.ts --out-dir lib --target node",
+    "build": "tsc",
     "build:watch": "tsc --watch",
     "lint": "tslint -p tsconfig.json",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
